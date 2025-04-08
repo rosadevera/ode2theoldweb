@@ -249,10 +249,10 @@ h3 {
 
 #preview {
     width: 500px;
-    height: 500px;
+    height: 650px;
     position: fixed; 
     left: 55vw;
-    top: 15vh;
+    top: 5vh;
 }
 
 #preview .content {
@@ -319,6 +319,13 @@ canvas {
     margin: 15px 0;
 }
 
+label {
+    font-family: "Terminal-grotesque";
+    font-size: 14px;
+    font-weight: 100;
+}
+
+
 .slider-group {
     margin: 10px 0;
     display: flex;
@@ -336,4 +343,15 @@ canvas {
 
 #imageUpload {
     margin: 10px 0;
+}
+
+.mask-options {
+    margin: 15px 0;
+}
+
+.mask-options select {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background: white;
 }

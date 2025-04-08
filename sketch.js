@@ -7,6 +7,26 @@ let imgHeight = 300;
 let imageCanvas;
 let imgX = 0;
 let imgY = 0;
+let currentMaskType = 'none'; 
+let textSettings = {
+  content: "",
+  size: 24,
+  color: "#000000",
+  font: "Comic Sans MS, cursive",
+  hasShadow: false,
+  shadowColor: "#000000",
+  shadowBlur: 5,
+  x: 100,
+  y: 100
+};
+let pinyonScriptFont; 
+
+
+function preload() {
+    ellipseMaskImg = loadImage('./media/ellipse-mask.png');
+    heartMaskImg = loadImage('./media/heart-mask.png');
+    pinyonScriptFont = loadFont('PinyonScript-Regular.ttf');
+}
 
 const sparklePalette = ["#FFFFFF", "#F8EE91", "#f594c9"];
 let sparkles = [];
@@ -46,6 +66,12 @@ function setup() {
     document.getElementById('xPosSlider').addEventListener('input', updateImagePosition);
     document.getElementById('yPosSlider').addEventListener('input', updateImagePosition);
 
+    document.getElementById('maskType').addEventListener('change', function() {
+      currentMaskType = this.value;
+      if (img) drawPixelatedImage();
+  });
+
+
     // Sparkle sliders (using HTML input elements)
     document.getElementById('sparkleAmount').addEventListener('input', function() {
         sparkleSettings.amount = parseInt(this.value);
@@ -72,6 +98,49 @@ function setup() {
   });
     
     createSparkles();
+
+    // Text controls
+    document.getElementById('customText').addEventListener('input', function() {
+      textSettings.content = this.value;
+  });
+  
+  document.getElementById('textSizeSlider').addEventListener('input', function() {
+      textSettings.size = parseInt(this.value);
+      document.getElementById('textSizeValue').textContent = this.value;
+  });
+  
+  document.getElementById('textColorPicker').addEventListener('input', function() {
+      textSettings.color = this.value;
+  });
+  
+  document.getElementById('fontFamilySelect').addEventListener('change', function() {
+      textSettings.font = this.value;
+  });
+  
+  document.getElementById('shadowCheckbox').addEventListener('change', function() {
+      textSettings.hasShadow = this.checked;
+      document.getElementById('shadowColorPicker').disabled = !this.checked;
+      document.getElementById('shadowBlurSlider').disabled = !this.checked;
+  });
+  
+  document.getElementById('shadowColorPicker').addEventListener('input', function() {
+      textSettings.shadowColor = this.value;
+  });
+  
+  document.getElementById('shadowBlurSlider').addEventListener('input', function() {
+      textSettings.shadowBlur = parseInt(this.value);
+  });
+
+  document.getElementById('textXSlider').addEventListener('input', function() {
+    textSettings.x = parseInt(this.value);
+    document.getElementById('textXValue').textContent = this.value;
+});
+
+document.getElementById('textYSlider').addEventListener('input', function() {
+    textSettings.y = parseInt(this.value);
+    document.getElementById('textYValue').textContent = this.value;
+});
+
 }
 
 function updateExistingSparkles() {
@@ -97,6 +166,33 @@ function draw() {
     
     // Draw image
     if (img) image(imageCanvas, 0, 0);
+
+    // Draw text
+    if (textSettings.content) {
+      push();
+      textSize(textSettings.size);
+      
+      // Apply the selected font
+      if (textSettings.font === "pinyon") {
+          textFont(pinyonScriptFont); // Use the loaded TTF font
+      } else {
+          textFont(textSettings.font); // Use system fonts
+      }
+      
+      fill(textSettings.color);
+      
+      if (textSettings.hasShadow) {
+          drawingContext.shadowColor = textSettings.shadowColor;
+          drawingContext.shadowBlur = textSettings.shadowBlur;
+          drawingContext.shadowOffsetX = 2;
+          drawingContext.shadowOffsetY = 2;
+      } else {
+          drawingContext.shadowColor = 'transparent';
+      }
+      
+      text(textSettings.content, textSettings.x, textSettings.y);
+      pop();
+  }
     
     // Draw sparkles
     drawSparkles();
@@ -134,32 +230,79 @@ function drawPixelatedImage() {
   const xPos = imgX;
   const yPos = imgY;
   
-  // Create a temporary buffer matching our target dimensions
+  // Create a temporary buffer
   let tempBuffer = createGraphics(imgWidth, imgHeight);
   tempBuffer.pixelDensity(1);
   tempBuffer.image(img, 0, 0, imgWidth, imgHeight);
   tempBuffer.loadPixels();
   
-  // Draw pixelated version
+  // Draw pixelated version with mask
   const blockSize = pixelationLevel;
+  
+  // Adjust heart proportions if needed
+  const heartWidth = currentMaskType === 'heart' ? imgWidth * 0.9 : imgWidth;
+  const heartHeight = currentMaskType === 'heart' ? imgHeight * 0.8 : imgHeight;
+  const heartXOffset = currentMaskType === 'heart' ? (imgWidth - heartWidth)/2 : 0;
+  const heartYOffset = currentMaskType === 'heart' ? (imgHeight - heartHeight)/2 : 0;
   
   for (let x = 0; x < imgWidth; x += blockSize) {
       for (let y = 0; y < imgHeight; y += blockSize) {
-          // Get the color from the temporary buffer
-          const i = (x + y * imgWidth) * 4;
-          
-          if (i + 3 < tempBuffer.pixels.length) {
-              let r = tempBuffer.pixels[i];
-              let g = tempBuffer.pixels[i + 1];
-              let b = tempBuffer.pixels[i + 2];
-              let a = tempBuffer.pixels[i + 3];
+          // Only draw pixels that are within the mask
+          if (currentMaskType === 'none' || 
+              isInMask(x - heartXOffset, y - heartYOffset, heartWidth, heartHeight, currentMaskType)) {
               
-              // Draw to the image canvas
-              imageCanvas.fill(r, g, b, a);
-              imageCanvas.noStroke();
-              imageCanvas.rect(xPos + x, yPos + y, blockSize, blockSize);
+              const i = (x + y * imgWidth) * 4;
+              
+              if (i + 3 < tempBuffer.pixels.length) {
+                  let r = tempBuffer.pixels[i];
+                  let g = tempBuffer.pixels[i + 1];
+                  let b = tempBuffer.pixels[i + 2];
+                  let a = tempBuffer.pixels[i + 3];
+                  
+                  imageCanvas.fill(r, g, b, a);
+                  imageCanvas.noStroke();
+                  imageCanvas.rect(xPos + x, yPos + y, blockSize, blockSize);
+              }
           }
       }
+  }
+}
+
+function isInMask(x, y, w, h, maskType) {
+  if (maskType === 'none') return true;
+  
+  // Convert to centered coordinates (-1 to 1 range)
+  const cx = (x/w) * 2 - 1;
+  const cy = (y/h) * 2 - 1;
+  
+  if (maskType === 'ellipse') {
+      return (cx*cx + cy*cy <= 1);
+  }
+  else if (maskType === 'heart') {
+      const x2 = cx * cx;
+      const y2 = cy * cy;
+      const y3 = cy * cy * cy;
+      
+      return Math.pow(x2 + y2 - 1, 3) - x2 * y2 * (-cy) <= 0;
+  }
+  return true;
+}
+
+function loadMaskImage(e, type) {
+  const file = e.target.files[0];
+  if (file) {
+      const reader = new FileReader();
+      reader.onload = function(event) {
+          const img = loadImage(event.target.result, () => {
+              if (type === 'ellipse') {
+                  customEllipseMask = img;
+              } else {
+                  customHeartMask = img;
+              }
+              if (img) drawPixelatedImage();
+          });
+      };
+      reader.readAsDataURL(file);
   }
 }
 
