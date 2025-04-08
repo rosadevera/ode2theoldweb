@@ -61,19 +61,60 @@
             <div class="tab" id="texttab"><h3>text</h3></div>
             <div class="tab" id="effectstab"><h3>effects</h3></div>
         </section>
-        <section class="background">
+        <section class="background" id="background-section">
             <p>background colors</p>
             <div id="color-picker-container"></div>
         </section>
-        <section class="image hidden">
+        <section class="image hidden" id="image-section">
             <p>upload an image</p>
+            <input type="file" id="imageUpload" accept="image/*">
+            <div class="image-controls">
+                <div class="slider-group">
+                    <label>Pixel Size:</label>
+                    <input type="range" id="pixelSlider" min="1" max="30" value="4">
+                </div>
+                <div class="slider-group">
+                    <label>Width:</label>
+                    <input type="range" id="widthSlider" min="50" max="500" value="300">
+                </div>
+                <div class="slider-group">
+                    <label>Height:</label>
+                    <input type="range" id="heightSlider" min="50" max="500" value="300">
+                </div>
+            </div>
+            <label>X Position:</label>
+            <input type="range" id="xPosSlider" min="0" max="1000" value="0">
+
+            <label>Y Position:</label>
+            <input type="range" id="yPosSlider" min="0" max="1000" value="0">
+            <div id="image-canvas"></div>
         </section>
-        <section class="text hidden">
+        <section class="text hidden" id="text-section">
             <p>write some text</p>
             <textarea class="textbox1" id="customText" placeholder="dear..."></textarea>
         </section>
-        <section class="effects hidden">
+        <section class="effects hidden" id="effects-section">
             <p>add sparkles ⋆.˚⟡ ࣪ ˖</p>
+            <div class="slider-group">
+                <label>Amount:</label>
+                <input type="range" id="sparkleAmount" min="1" max="30" value="8">
+            </div>
+            <div class="slider-group">
+                <label>Max Size:</label>
+                <input type="range" id="sparkleMax" min="1" max="100" value="30" step="1">
+            </div>
+            <div class="slider-group">
+                <label>Min Size:</label>
+                <input type="range" id="sparkleMin" min="1" max="50" value="8" step="1">
+            </div>
+            <div class="slider-group">
+                <label>Speed:</label>
+                <input type="range" id="sparkleSpeed" min="1" max="20" value="8" step="1">
+            </div>
+            <div class="slider-group">
+                <label>Opacity:</label>
+                <input type="range" id="sparkleOpacity" min="0" max="255" value="150" step="1">
+            </div>
         </section>
     </div>
 </section>
