@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ode 2 the old web ⋆.˚⟡ ࣪ ˖</title>
+    <meta name="description" content="a generative tool that is an ode to old web aesthetics">
+    <link rel="icon" type="image/x-icon" href="./media/pixelheart.png">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <script defer src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script defer src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+</head>
+<body>
+
+<section class="bottom">
+    <div class="bottomapps">
+        <img src="./media/pixelheart.png" class="gap" width="20px">
+        <h2 class="gap">ode 2 the old web ⋆.˚⟡ ࣪ ˖</h2>
+        <div id="openapps"></div>
+    </div>
+    <div id="clock"></div>
+</section>
+
+<section class="apps">
+    <div id="abouticon" class="icon">
+        <img src="./media/about.png" width="25px">
+        <h3>about</h3>
+    </div>
+    <div id="toolsicon" class="icon">
+        <img src="./media/tools.png" width="30px">
+        <h3>tools</h3>
+    </div>
+    <div id="previewicon" class="icon">
+        <img src="./media/imagefile.png" width="30px">
+        <h3>preview</h3>
+    </div>
+    <div id="creatoricon" class="icon">
+        <img src="./media/bunny.png" width="35px">
+        <h3>creator</h3>
+    </div>
+</section>
+
+<section id="about" class="popup hidden">
+    <div class="header"><img src="./media/about.png" width="20px"><h3>about</h3>
+        <button class="x-button" onclick="closePopup(this)">X</button>
+    </div>
+    <div class="content">
+        hi
+    </div>
+</section>
+
+<section id="tools" class="popup">
+    <div class="header"><img src="./media/tools.png" width="20px"><h3>tools</h3>
+        <button class="x-button" onclick="closePopup(this)">X</button>
+    </div>
+    <div class="content">
+        <section class="tooltabs">
+            <div class="tab active" id="backgroundtab"><h3>background</h3></div>
+            <div class="tab" id="imagetab"><h3>image</h3></div>
+            <div class="tab" id="texttab"><h3>text</h3></div>
+            <div class="tab" id="effectstab"><h3>effects</h3></div>
+        </section>
+        <section class="background">
+            <p>background colors</p>
+            <div id="color-picker-container"></div>
+        </section>
+        <section class="image hidden">
+            <p>upload an image</p>
+        </section>
+        <section class="text hidden">
+            <p>write some text</p>
+            <textarea class="textbox1" id="customText" placeholder="dear..."></textarea>
+        </section>
+        <section class="effects hidden">
+            <p>add sparkles ⋆.˚⟡ ࣪ ˖</p>
+        </section>
+    </div>
+</section>
+
+<section id="preview" class="popup">
+    <div class="header"><img src="./media/imagefile.png" width="20px"><h3>preview</h3>
+        <button class="x-button" onclick="closePopup(this)">X</button>
+    </div>
+    <div class="content" id="preview-canvas">
+    </div>
+</section>
+
+
+<script defer src="sketch.js"></script>
+<script defer src="script.js"></script>
+</body>
+</html>
+
+
