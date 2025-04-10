@@ -451,7 +451,7 @@ label {
 }
 
 .move7 {
-    top: 30%;
+    top: 15%;
     animation: moveAcross 120s linear infinite;
     animation-delay: 120s;
 }
