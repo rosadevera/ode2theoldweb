@@ -24,6 +24,7 @@ body {
     image-rendering: crisp-edges;
     image-rendering: pixelated;
     -ms-interpolation-mode: nearest-neighbor;
+    cursor: url("./media/heartcursor.png"), auto;
 }
 
 .bottom {
@@ -223,7 +224,7 @@ h3 {
     display: flex;
     flex-direction: column;
     background: var(--pink);
-    overflow: auto; /* Adds scroll if content overflows */
+    overflow-x: hidden;
     min-height: 0; 
     margin: 6px;
     box-shadow: 
@@ -236,7 +237,37 @@ h3 {
     height: 300px;
     position: fixed; 
     left:5vw;
-    top:25vh;
+    bottom:12vh;
+    line-height: 16px;
+}
+
+#about .content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.stars {
+    position: absolute;
+    bottom:30px;
+    right:50px;
+}
+
+.rainbow {
+    position: absolute;
+    bottom:100px;
+    right:150px;
+}
+
+.hearts {
+    position: absolute;
+    bottom:10px;
+    right:50px;
+}
+
+.angel {
+    position: absolute;
+    bottom:120px;
+    right:30px; 
 }
 
 #tools {
@@ -260,6 +291,14 @@ h3 {
     height: 100%;
     padding: 0;
     margin: 0;
+}
+
+#tunes {
+    width: 430px;
+    height: 360px;
+    position: fixed; 
+    right: 5vw;
+    bottom: 25vh;
 }
 
 canvas {
@@ -325,7 +364,6 @@ label {
     font-weight: 100;
 }
 
-
 .slider-group {
     margin: 10px 0;
     display: flex;
@@ -333,8 +371,11 @@ label {
 }
 
 .slider-group label {
+    white-space: nowrap;
+    display: flex;
+    align-items: center; 
+    gap: 5px; 
     width: 80px;
-    display: inline-block;
 }
 
 #image-canvas {

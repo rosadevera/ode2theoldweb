@@ -35,9 +35,17 @@
         <img src="./media/imagefile.png" width="30px">
         <h3>preview</h3>
     </div>
-    <div id="creatoricon" class="icon">
-        <img src="./media/bunny.png" width="35px">
+    <div class="icon">
+        <a href="https://rosadevera.cargo.site/" target="_blank"><img src="./media/bunny.png" width="35px"></a>
         <h3>creator</h3>
+    </div>
+    <div class="icon">
+        <a href="https://rosadevera.github.io/js-spring2025/" target="_blank"><img src="./media/web.png" width="30px"></a>
+        <h3>class website</h3>
+    </div>
+    <div id="musicicon" class="icon">
+        <img src="./media/music.png" width="30px">
+        <h3>tunes</h3>
     </div>
 </section>
 
@@ -46,7 +54,25 @@
         <button class="x-button" onclick="closePopup(this)">X</button>
     </div>
     <div class="content">
-        hi
+        <p>ode 2 the old web ⋆.˚⟡ ࣪ ˖ is a generative tool (WIP) designed by Rosa de Vera that is an ode to old web aesthetics... let's bring back being silly and having fun on the web!!!!</p>
+        <img src="./media/stars.gif" class="stars" width="200px">
+        <img src="./media/aboutimg.png" width="200px">
+        <img src="./media/rainbow.gif" class="rainbow" width="70px">
+        <img src="./media/hearts.gif" class="hearts" width="100px">
+        <img src="./media/angelright.gif" class="angel" width="70px">
+    </div>
+</section>
+
+<section id="tunes" class="popup hidden">
+    <div class="header"><img src="./media/music.png" width="20px"><h3>tunes</h3>
+        <button class="x-button" onclick="closePopup(this)">X</button>
+    </div>
+    <div class="content">
+        <iframe width="420" height="315"
+        src="https://www.youtube.com/embed/XGJ9jw5SwYQ?list=PL_s1abEyTmullCNAJXzF8DGTJpj8Y_xio&index=23&autoplay=1"
+        allow="autoplay"
+        allowfullscreen>
+        </iframe>
     </div>
 </section>
 
@@ -66,7 +92,7 @@
             <div id="color-picker-container"></div>
         </section>
         <section class="image hidden" id="image-section">
-            <p>upload an image</p>
+            <p>upload an image!</p>
             <input type="file" id="imageUpload" accept="image/*">
             <div class="image-controls">
                 <div class="slider-group">
@@ -143,7 +169,7 @@
             </div>
         </section>
         <section class="effects hidden" id="effects-section">
-            <p>add sparkles!! ⋆.˚⟡ ࣪ ˖</p>
+            <p>add sparkles! ⋆.˚⟡ ࣪ ˖</p>
             <div class="slider-group">
                 <label>amount:</label>
                 <input type="range" id="sparkleAmount" min="1" max="20" value="8">
@@ -177,7 +203,225 @@
 </section>
 
 
-<script defer src="sketch.js"></script>
+<script src="sketch.js"></script>
+<!-- Sparkle Effect Script -->
+<script>
+    // ===== Tinkerbell Sparkle Effect (Original Version - Preserved) =====
+    (function() {
+      // Configuration
+      var colour = "random";
+      var sparkles = 50;
+      
+      // Variables
+      var x = ox = 400;
+      var y = oy = 300;
+      var swide = 800;
+      var shigh = 600;
+      var sleft = sdown = 0;
+      var tiny = [];
+      var star = [];
+      var starv = [];
+      var starx = [];
+      var stary = [];
+      var tinyx = [];
+      var tinyy = [];
+      var tinyv = [];
+    
+      function createDiv(height, width) {
+        var div = document.createElement("div");
+        div.style.position = "absolute";
+        div.style.height = height + "px";
+        div.style.width = width + "px";
+        div.style.overflow = "hidden";
+        div.style.pointerEvents = "none"; // Crucial for p5.js compatibility
+        return div;
+      }
+    
+      function newColour() {
+        var c = new Array();
+        c[0] = 255;
+        c[1] = Math.floor(Math.random() * 256);
+        c[2] = Math.floor(Math.random() * (256 - c[1]/2));
+        c.sort(function() { return (0.5 - Math.random()); });
+        return "rgb(" + c[0] + ", " + c[1] + ", " + c[2] + ")";
+      }
+    
+      function update_star(i) {
+        if (--starv[i] == 25) star[i].style.clip = "rect(1px, 4px, 4px, 1px)";
+        if (starv[i]) {
+          stary[i] += 1 + Math.random() * 3;
+          starx[i] += (i % 5 - 2) / 5;
+          if (stary[i] < shigh + sdown) {
+            star[i].style.top = stary[i] + "px";
+            star[i].style.left = starx[i] + "px";
+          } else {
+            star[i].style.visibility = "hidden";
+            starv[i] = 0;
+            return;
+          }
+        } else {
+          tinyv[i] = 50;
+          tiny[i].style.top = (tinyy[i] = stary[i]) + "px";
+          tiny[i].style.left = (tinyx[i] = starx[i]) + "px";
+          tiny[i].style.width = "2px";
+          tiny[i].style.height = "2px";
+          tiny[i].style.backgroundColor = star[i].childNodes[0].style.backgroundColor;
+          star[i].style.visibility = "hidden";
+          tiny[i].style.visibility = "visible";
+        }
+      }
+    
+      function update_tiny(i) {
+        if (--tinyv[i] == 25) {
+          tiny[i].style.width = "1px";
+          tiny[i].style.height = "1px";
+        }
+        if (tinyv[i]) {
+          tinyy[i] += 1 + Math.random() * 3;
+          tinyx[i] += (i % 5 - 2) / 5;
+          if (tinyy[i] < shigh + sdown) {
+            tiny[i].style.top = tinyy[i] + "px";
+            tiny[i].style.left = tinyx[i] + "px";
+          } else {
+            tiny[i].style.visibility = "hidden";
+            tinyv[i] = 0;
+            return;
+          }
+        } else {
+          tiny[i].style.visibility = "hidden";
+        }
+      }
+    
+      function sparkle() {
+        var c;
+        if (Math.abs(x - ox) > 1 || Math.abs(y - oy) > 1) {
+          ox = x;
+          oy = y;
+          for (c = 0; c < sparkles; c++) {
+            if (!starv[c]) {
+              star[c].style.left = (starx[c] = x) + "px";
+              star[c].style.top = (stary[c] = y + 1) + "px";
+              star[c].style.clip = "rect(0px, 5px, 5px, 0px)";
+              star[c].childNodes[0].style.backgroundColor = 
+              star[c].childNodes[1].style.backgroundColor = 
+                (colour == "random") ? newColour() : colour;
+              star[c].style.visibility = "visible";
+              starv[c] = 50;
+              break;
+            }
+          }
+        }
+        for (c = 0; c < sparkles; c++) {
+          if (starv[c]) update_star(c);
+          if (tinyv[c]) update_tiny(c);
+        }
+        setTimeout(sparkle, 40);
+      }
+    
+      function set_scroll() {
+        if (typeof(self.pageYOffset) == 'number') {
+          sdown = self.pageYOffset;
+          sleft = self.pageXOffset;
+        } else if (document.body && (document.body.scrollTop || document.body.scrollLeft)) {
+          sdown = document.body.scrollTop;
+          sleft = document.body.scrollLeft;
+        } else if (document.documentElement && (document.documentElement.scrollTop || document.documentElement.scrollLeft)) {
+          sleft = document.documentElement.scrollLeft;
+          sdown = document.documentElement.scrollTop;
+        } else {
+          sdown = 0;
+          sleft = 0;
+        }
+      }
+    
+      function set_width() {
+        var sw_min = 999999;
+        var sh_min = 999999;
+        if (document.documentElement && document.documentElement.clientWidth) {
+          if (document.documentElement.clientWidth > 0) sw_min = document.documentElement.clientWidth;
+          if (document.documentElement.clientHeight > 0) sh_min = document.documentElement.clientHeight;
+        }
+        if (typeof(self.innerWidth) == 'number' && self.innerWidth) {
+          if (self.innerWidth > 0 && self.innerWidth < sw_min) sw_min = self.innerWidth;
+          if (self.innerHeight > 0 && self.innerHeight < sh_min) sh_min = self.innerHeight;
+        }
+        if (document.body.clientWidth) {
+          if (document.body.clientWidth > 0 && document.body.clientWidth < sw_min) sw_min = document.body.clientWidth;
+          if (document.body.clientHeight > 0 && document.body.clientHeight < sh_min) sh_min = document.body.clientHeight;
+        }
+        if (sw_min == 999999 || sh_min == 999999) {
+          sw_min = 800;
+          sh_min = 600;
+        }
+        swide = sw_min;
+        shigh = sh_min;
+      }
+    
+      function mouse(e) {
+        if (e) {
+          y = e.pageY;
+          x = e.pageX;
+        } else {
+          set_scroll();
+          y = event.y + sdown;
+          x = event.x + sleft;
+        }
+      }
+    
+      function initSparkles() {
+        if (document.getElementById) {
+          var i, rats, rlef, rdow;
+          for (i = 0; i < sparkles; i++) {
+            // Create tiny sparkle
+            tiny[i] = createDiv(3, 3);
+            tiny[i].style.visibility = "hidden";
+            tiny[i].style.zIndex = "9999";
+            document.body.appendChild(tiny[i]);
+            
+            // Create star sparkle
+            star[i] = createDiv(5, 5);
+            star[i].style.backgroundColor = "transparent";
+            star[i].style.visibility = "hidden";
+            star[i].style.zIndex = "9999";
+            
+            // Create cross shape for star
+            rlef = createDiv(1, 5);
+            rdow = createDiv(5, 1);
+            rlef.style.top = "2px";
+            rlef.style.left = "0px";
+            rdow.style.top = "0px";
+            rdow.style.left = "2px";
+            star[i].appendChild(rlef);
+            star[i].appendChild(rdow);
+            document.body.appendChild(star[i]);
+            
+            starv[i] = 0;
+            tinyv[i] = 0;
+          }
+          set_width();
+          sparkle();
+        }
+      }
+    
+      // Initialize after p5.js is ready
+      function waitForP5() {
+        if (typeof p5 !== 'undefined') {
+          // Extra delay to ensure p5 setup is complete
+          setTimeout(initSparkles, 200);
+        } else {
+          setTimeout(waitForP5, 50);
+        }
+      }
+    
+      // Event listeners
+      document.addEventListener('mousemove', mouse);
+      window.addEventListener('scroll', set_scroll);
+      window.addEventListener('resize', set_width);
+    
+      // Start initialization
+      waitForP5();
+    })();
+</script>
 <script defer src="script.js"></script>
 </body>
 </html>

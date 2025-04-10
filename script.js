@@ -2,7 +2,6 @@ $(document).ready(function() {
 
     $(".popup").draggable({
         start: function() {
-            // When dragging starts, bring to front
             bringToFront($(this));
         }
     });
@@ -21,9 +20,14 @@ $(document).ready(function() {
         }
     });
 
-    // Also bring to front when opening via icon
     function openPopup($popup) {
+        // Hide all other popups if needed (optional)
+        // $(".popup").css("z-index", "10");
+        
+        // Show the popup
         $popup.removeClass('hidden');
+        
+        // Bring to front
         bringToFront($popup);
     }
     
@@ -44,7 +48,8 @@ $(document).ready(function() {
     const appIcons = {
         'about': './media/about.png',
         'tools': './media/tools.png',
-        'preview': './media/imagefile.png'
+        'preview': './media/imagefile.png',
+        'tunes': './media/music.png'
     };
 
     // Function to update bottom apps
@@ -74,21 +79,44 @@ $(document).ready(function() {
     $("#abouticon").click(function() {
         const $popup = $("#about");
         const isOpening = $popup.hasClass('hidden');
-        $popup.toggleClass("hidden");
+        if (isOpening) {
+            openPopup($popup);
+        } else {
+            $popup.addClass("hidden");
+        }
         updateBottomApp('about', isOpening);
     });
-
+    
+    $("#musicicon").click(function() {
+        const $popup = $("#tunes");
+        const isOpening = $popup.hasClass('hidden');
+        if (isOpening) {
+            openPopup($popup);
+        } else {
+            $popup.addClass("hidden");
+        }
+        updateBottomApp('tunes', isOpening);
+    });
+    
     $("#toolsicon").click(function() {
         const $popup = $("#tools");
         const isOpening = $popup.hasClass('hidden');
-        $popup.toggleClass("hidden");
+        if (isOpening) {
+            openPopup($popup);
+        } else {
+            $popup.addClass("hidden");
+        }
         updateBottomApp('tools', isOpening);
     });
-
+    
     $("#previewicon").click(function() {
         const $popup = $("#preview");
         const isOpening = $popup.hasClass('hidden');
-        $popup.toggleClass("hidden");
+        if (isOpening) {
+            openPopup($popup);
+        } else {
+            $popup.addClass("hidden");
+        }
         updateBottomApp('preview', isOpening);
     });
 
@@ -102,30 +130,6 @@ $(document).ready(function() {
 
     updateBottomApp('tools', true);
     updateBottomApp('preview', true);
-
-    $("#about").click(function(e) {
-        if (e.target === this) {
-            // Reset all popups to z-index: 10 (or your default)
-            $(".popup").css("z-index", "10");
-            $(this).css("z-index", "999");
-        }
-    });
-    
-    $("#tools").click(function(e) {
-        if (e.target === this) {
-            // Reset all popups to z-index: 10 (or your default)
-            $(".popup").css("z-index", "10");
-            $(this).css("z-index", "999");
-        }
-    });
-
-    $("#preview").click(function(e) {
-        if (e.target === this) {
-            // Reset all popups to z-index: 10 (or your default)
-            $(".popup").css("z-index", "10");
-            $(this).css("z-index", "999");
-        }
-    });
 
 
 const $backgroundTab = $("#backgroundtab");
@@ -188,3 +192,4 @@ $(document).ready(function() {
     setActiveTab($backgroundTab);
 });
 });
+
