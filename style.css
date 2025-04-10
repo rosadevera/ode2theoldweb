@@ -396,3 +396,85 @@ label {
     border: 1px solid #ccc;
     background: white;
 }
+
+.moving-elements {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none; 
+    z-index: 100; 
+    overflow: hidden; 
+}
+
+.moving-element {
+    position: absolute;
+    will-change: transform; 
+    opacity: 0;
+}
+
+.move1 {
+    bottom: 20%;
+    animation: moveAcross 120s linear infinite;
+    animation-delay: 0s;
+}
+
+.move2 {
+    top: 30%;
+    animation: moveAcross 120s linear infinite;
+    animation-delay: 20s;
+}
+
+.move3 {
+    bottom: 35%;
+    animation: moveAcross 120s linear infinite;
+    animation-delay: 40s;
+}
+
+.move4 {
+    top: 10%;
+    animation: moveAcross 120s linear infinite;
+    animation-delay: 60s;
+}
+
+.move5 {
+    bottom: 20%;
+    animation: moveAcross 120s linear infinite;
+    animation-delay: 80s;
+}
+
+.move6 {
+    top: 5%;
+    animation: moveAcross 120s linear infinite;
+    animation-delay: 100s;
+}
+
+.move7 {
+    top: 30%;
+    animation: moveAcross 120s linear infinite;
+    animation-delay: 120s;
+}
+
+@keyframes moveAcross {
+    0% {
+        transform: translateX(-100px);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1; 
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(calc(100vw + 100px));
+        opacity: 0; 
+    }
+}
+
+.hello {
+    position: fixed;
+    bottom: 60px;
+    right:20px;
+}
