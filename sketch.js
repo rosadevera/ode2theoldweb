@@ -21,7 +21,7 @@ let textSettings = {
 };
 let pinyonScriptFont; 
 
-
+ 
 function preload() {
     ellipseMaskImg = loadImage('./media/ellipse-mask.png');
     heartMaskImg = loadImage('./media/heart-mask.png');
@@ -140,6 +140,11 @@ document.getElementById('textYSlider').addEventListener('input', function() {
     textSettings.y = parseInt(this.value);
     document.getElementById('textYValue').textContent = this.value;
 });
+
+const saveButton = select('#save');
+  saveButton.mousePressed(() => {
+    saveCanvas('myCanvas', 'png');
+  });
 
 }
 

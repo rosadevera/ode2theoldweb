@@ -95,6 +95,9 @@
         </section>
         <section class="image hidden" id="image-section">
             <p>upload an image!</p>
+            <label for="imageUpload" class="custom-file-upload">
+              Choose an image
+            </label>
             <input type="file" id="imageUpload" accept="image/*">
             <div class="image-controls">
                 <div class="slider-group">
@@ -116,7 +119,7 @@
             <input type="range" id="yPosSlider" min="0" max="500" value="0">
             <div class="mask-options">
                 <label>image shape:</label>
-                <select id="maskType">
+                <select id="maskType" class="styled-select">
                     <option value="none">rectangle (No Mask)</option>
                     <option value="ellipse">ellipse</option>
                     <option value="heart">heart</option>
@@ -139,7 +142,7 @@
             
             <div class="slider-group">
                 <label>font family:</label>
-                <select id="fontFamilySelect">
+                <select id="fontFamilySelect" class="styled-select">
                     <option value="Comic Sans MS, cursive">comic sans</option>
                     <option value="Papyrus, fantasy">papyrus</option>
                     <option value="pinyon">script</option>
@@ -193,6 +196,7 @@
                 <input type="range" id="sparkleOpacity" min="0" max="255" value="150" step="1">
             </div>
         </section>
+        <div id="save">save canvas</div>
     </div>
 </section>
 
